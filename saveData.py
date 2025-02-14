@@ -9,6 +9,7 @@ load_dotenv(dotenv_path='psswd.env')
 MONGO_URI = os.getenv("MONGO_URI")
 
 print(f'DATABASE_URL: {MONGO_URI}')
+
 # Create a new client and connect to the server
 client = MongoClient(MONGO_URI)
 
