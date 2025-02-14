@@ -29,7 +29,7 @@ def read_file(file_path, tipo):
 
     return df
 
-def process_date(df):
+def process_data(df):
     # eliminar columnes irrellevants
     df = df.drop(columns=['codiEns', 'nomEns'])
 
@@ -38,9 +38,12 @@ def process_date(df):
 
     return df
 
-df = read_file(alta_path, "alta")
-df = read_file(baixa_path, "baixa")
-df = process_date(df)
+df_alta = read_file(alta_path, "alta")
+df_baixa = read_file(baixa_path, "baixa")
 
-print(df.head())
-df.to_csv("dataClean/alta_baixaTarragona.csv", sep=';', index=False)
+df_total = pd.concat([df_alta, df_baixa], ignore_index=True)
+
+df_total = process_data(df_total)
+
+print(df_total.head())
+df_total.to_csv("dataClean/alta_baixaTarragona.csv", sep=';', index=False)
