@@ -2,10 +2,11 @@ import sys
 import os
 import pandas as pd
 
-data_path = './data/altaTarragona.csv'
+alta_path = './data/altaTarragona.csv'
+baixa_path = './data/baixaTarragona.csv'
 pd.set_option('display.max_columns', None) #mostar totes les columnes
 
-def read_file(file_path):
+def read_file(file_path, tipo):
     if not os.path.exists(file_path):
         print(f"ERROR! File not found: {file_path}")
         sys.exit(1)
@@ -24,6 +25,7 @@ def read_file(file_path):
                             'codiEns', 'nomEns'],
                      dtype=dtype_mapping, encoding="utf-8",
                      header=0)
+    df["tipo"] = tipo
 
     return df
 
@@ -36,7 +38,8 @@ def process_date(df):
 
     return df
 
-df = read_file(data_path)
+df = read_file(alta_path, "alta")
+df = read_file(baixa_path, "baixa")
 df = process_date(df)
 
 print(df.head())
