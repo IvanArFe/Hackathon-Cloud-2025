@@ -2,7 +2,7 @@ import sys
 import os
 import pandas as pd
 
-data_path = './data/poblacioTGN_EdatSexeNacionalitat.csv'
+data_path = './data/tasaAtur.csv'
 pd.set_option('display.max_columns', None) #mostar totes les columnes
 
 def read_file(file_path):
@@ -11,26 +11,22 @@ def read_file(file_path):
         sys.exit(1)
 
     dtype_mapping = { #mappeig tipus de dades
-        "nomZona": "string",
-        "edad": "Int64",
-        "sexe": "string",
-        "nacionalitat": "string",
-        "quantitat": "Int64",
-        "codiEns": "Int64",
-        "nomEns": "string"
+        "sexo": "string",
+        "provincias": "string",
+        "tasas": "string",
+        "periodo": "string",
+        "tasaAtur": "float",
     }
     # carregar fitxer amb ; i especificar les columnes
-    df = pd.read_csv(file_path, sep=",", decimal=".",
-                     names=['nomZona', 'edad', 'sexe', 'nacionalitat',
-                            'quantitat', 'codiEns', 'nomEns'],
+    df = pd.read_csv(file_path, sep=";", decimal=",",
+                     names=['sexo', 'provincias', 'tasas', 'periodo',
+                            'tasaAtur'],
                      dtype=dtype_mapping, encoding="utf-8",
                      header=0)
 
     return df
 
 def process_date(df):
-    # eliminar columnes irrellevants
-    df = df.drop(columns=['codiEns', 'nomEns'])
 
     # si hi ha valors nulls eliminar la fila
     df = df.dropna()
@@ -41,3 +37,4 @@ df = read_file(data_path)
 df = process_date(df)
 
 print(df.head())
+df.to_csv("dataClean/tasaAtur.csv", sep=';', index=False)
