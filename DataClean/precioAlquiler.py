@@ -43,3 +43,4 @@ df = read_file(data_path)
 df = process_date(df)
 
 print(df.head())
+df.to_csv("dataClean/preuLloguer.csv", sep=';', index=False)
