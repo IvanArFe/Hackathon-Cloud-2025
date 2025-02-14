@@ -37,9 +37,9 @@ def process_date(df):
     df = df.dropna(subset=["habitatges", "renda"])
     # Limpiar nombres de territorio que terminan en ", l'"
     df["nomTerritori"] = df["nomTerritori"].str.replace(r", l'$", "", regex=True)
-
+    return df
 
 df = read_file(data_path)
-process_date(df)
+df = process_date(df)
 
 print(df.head())
