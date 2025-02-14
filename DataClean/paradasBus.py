@@ -1,6 +1,7 @@
 import sys
 import os
 import pandas as pd
+from numpy import integer
 
 data_path = './data/paradasBus.csv'
 pd.set_option('display.max_columns', None) #mostar totes les columnes
@@ -11,7 +12,7 @@ def read_file(file_path):
         sys.exit(1)
     "CODI", "NOM", "ADRECA", "LATITUD", "LONGITUD", "CODI_ENS", "NOM_ENS"
     dtype_mapping = { #mappeig tipus de dades
-        "codi": "float",
+        "codi": "string",
         "nom": "string",
         "adreca": "string",
         "latitud": "float",
@@ -31,6 +32,9 @@ def read_file(file_path):
 def process_date(df):
     # eliminar columnes irrellevants
     df = df.drop(columns=['codiEns', 'nomEns'])
+    df['codi'] = df['codi'].str.replace(',0', '', regex=False)  # Eliminar ",0"
+    df['codi'] = pd.to_numeric(df['codi'], errors='coerce')
+    df = df.dropna()
 
     return df
 
