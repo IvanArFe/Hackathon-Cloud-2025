@@ -33,7 +33,8 @@ def process_data(df):
     df = df.drop(columns=['totalNacional'])
 
     df = df[df["provincia"].str.contains("tarragona", case=False, na=False)]
-    df["municipi"] = df["municipi"].str.replace(r", L'$", "", regex=True)
+    # eliminar article de la poblacio
+    df["municipi"] = df["municipi"].str.split(",", n=1, expand=True)[0]
 
     #extraer año y mes
     df["año"] = df["periode"].str[:4]  # año

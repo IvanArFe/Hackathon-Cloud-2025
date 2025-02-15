@@ -35,8 +35,8 @@ def process_date(df):
 
     # si hi ha valors nulls eliminar la fila
     df = df.dropna(subset=["habitatges", "renda"])
-    # Limpiar nombres de territorio que terminan en ", l'"
-    df["nomTerritori"] = df["nomTerritori"].str.replace(r", l'$", "", regex=True)
+    df["nomTerritori"] = df["nomTerritori"].str.split(",", n=1, expand=True)[0]
+
     return df
 
 df = read_file(data_path)
