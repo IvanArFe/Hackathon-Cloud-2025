@@ -38,6 +38,9 @@ def process_data(df):
 
     # separar codi postal i poblacio
     df[["codi_postal", "poblacio"]] = df["municipi"].str.split(" ", n=1, expand=True)
+    df[["provincia_codi", "provincia_nom"]] = df["provincia"].str.split(" ", n=1, expand=True)
+    df["provincia"] = df["provincia_nom"]
+    df.drop(columns=["provincia_codi", "provincia_nom"], inplace=True) 
 
     #extraer año y mes
     df["año"] = df["periode"].str[:4]  # año
