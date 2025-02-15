@@ -14,10 +14,7 @@ df_hab_turistic["poblacio"] = df_hab_turistic["poblacio"].str.strip()
 # Hacer el merge en base a las columnas correspondientes
 df_merged = pd.merge(df_preu_lloguer, df_hab_turistic, left_on="nomTerritori", right_on="poblacio", how="inner")
 
-# Obtener solo la lista de provincias únicas
-provincias_unicas = df_merged["nomTerritori"].unique()
+# Guardar el resultado
+df_merged.to_csv("dataClean/preuLloguer_NomesTGN.csv", sep=';', index=False)
 
-# Guardar el resultado en un CSV
-pd.DataFrame(provincias_unicas, columns=["Provincia"]).to_csv("dataClean/provinciasTGN.csv", sep=';', index=False)
-
-print(provincias_unicas)
+print(df_merged.head())
