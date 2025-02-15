@@ -60,7 +60,7 @@ def process_data(df):
     if 'CCAA y provincia de destino.2' in df.columns:
         df = df[df['CCAA y provincia de destino.2'].isin(provincias_validas)]
     else:
-        print("WARNING: No se encontró la columna 'CCAA y provincia de destino.2' para filtrar.")
+        print("No trobada la columna 'CCAA y provincia de destino.2' para filtrar.")
 
     return df
 
