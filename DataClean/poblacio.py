@@ -2,7 +2,7 @@ import sys
 import os
 import pandas as pd
 
-data_path = './data/poblacioTGN_EdatSexeNacionalitat.csv'
+data_path = './data/poblacioTGN.csv'
 pd.set_option('display.max_columns', None) #mostar totes les columnes
 
 def read_file(file_path):
@@ -11,30 +11,28 @@ def read_file(file_path):
         sys.exit(1)
 
     dtype_mapping = { #mappeig tipus de dades
-        "nomZona": "string",
-        "edad": "Int64",
+        "municipi": "string",
         "sexe": "string",
-        "nacionalitat": "string",
-        "quantitat": "Int64",
-        "codiEns": "Int64",
-        "nomEns": "string"
+        "periode": "int",
+        "total": "string"
     }
     # carregar fitxer amb ; i especificar les columnes
-    df = pd.read_csv(file_path, sep=",", decimal=".",
-                     names=['nomZona', 'edad', 'sexe', 'nacionalitat',
-                            'quantitat', 'codiEns', 'nomEns'],
+    df = pd.read_csv(file_path, sep=";", decimal=",",
+                     names=['municipi', 'sexe', 'periode', 'total'],
                      dtype=dtype_mapping, encoding="utf-8",
                      header=0)
 
     return df
 
 def process_date(df):
-    # eliminar columnes irrellevants
-    df = df.drop(columns=['codiEns', 'nomEns'])
-
     # si hi ha valors nulls eliminar la fila
-    df = df.dropna()
+    df = df.dropna().copy()
 
+    #separar codi postal i poblacio
+    df[["codi_postal", "poblacio"]] = df["municipi"].str.split(" ", n=1, expand=True)
+
+    #eliminar article de la poblacio
+    df["poblacio"] = df["poblacio"].str.split(",", n=1, expand=True)[0]
     return df
 
 df = read_file(data_path)
